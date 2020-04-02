@@ -1,0 +1,11 @@
+adminUser:
+  password: vault:robinpewter/adminUser:password
+  username: admin
+enableDocker: false
+pipelineUser:
+  email: arcalos-admin@googlegroups.com
+  token: vault:robinpewter/pipelineUser:token
+  username: cloudbees-ci-cd[bot]
+prow:
+  hmacToken: vault:robinpewter/prow:hmacToken
+segmentWriteKey: vault:robinpewter:segmentWriteKey

@@ -1,40 +1,105 @@
 autoUpdate:
   enabled: true
-  schedule: '0 0 * * *'
+  schedule: 0 0 * * *
+bootConfigURL: https://github.com/cloudbees/arcalos-boot-config.git
 cluster:
-  clusterName: ""
-  environmentGitOwner: ""
-  project: ""
+  azure: {}
+  chartRepository: http://bucketrepo/bucketrepo/charts/
+  clusterName: robinpewter
+  environmentGitOwner: eml-org
+  environmentGitPublic: true
+  externalDNSSAName: robinpewter-dn
+  gitKind: github
+  gitName: github
+  gitPublic: true
+  gitServer: https://github.com
+  gke:
+    projectNumber: "986966228771"
+  kanikoSAName: robinpewter-ko
+  namespace: jx
+  project: cbjx-robinpewter
   provider: gke
-  zone: ""
-gitops: true
-githubApp:
-  enabled: false
-  url: ""
-  schedule: '0 0 * * *'
+  registry: gcr.io
+  vaultName: robinpewter
+  vaultSAName: robinpewter-vt
+  zone: us-central1-c
 environments:
-- key: dev
-- key: staging
-- key: production
+- ingress:
+    cloud_dns_secret_name: external-dns-gcp-sa
+    domain: cbjx-robinpewter.jxaas.live
+    domainIssuerURL: https://jx-tenant-service-jx.mgmt.jxaas.live
+    externalDNS: true
+    namespaceSubDomain: -jx.
+    tls:
+      email: jenkins-x@cloudbees.com
+      enabled: true
+      production: true
+  key: dev
+  repository: environment-robinpewter-dev
+- ingress:
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: staging
+  repository: environment-robinpewter-staging
+- ingress:
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: production
+  repository: environment-robinpewter-production
+githubApp:
+  enabled: true
+  schedule: 0 0 * * *
+  url: https://lighthouse-githubapp-jx.mgmt.jxaas.live
+gitops: true
 ingress:
-  domain: ""
+  cloud_dns_secret_name: external-dns-gcp-sa
+  domain: cbjx-robinpewter.jxaas.live
+  domainIssuerURL: https://jx-tenant-service-jx.mgmt.jxaas.live
   externalDNS: true
+  namespaceSubDomain: -jx.
   tls:
     email: jenkins-x@cloudbees.com
     enabled: true
-    production: false
+    production: true
 kaniko: true
+repository: bucketrepo
 secretStorage: vault
 storage:
+  backup:
+    enabled: true
+    url: gs://cbjx-robinpewter-backup
   logs:
-    enabled: false
-    url: ""
+    enabled: true
+    url: gs://cbjx-robinpewter-lts
   reports:
     enabled: false
     url: ""
   repository:
-    enabled: false
-    url: ""
+    enabled: true
+    url: gs://cbjx-robinpewter-repository
+vault:
+  aws: {}
+  bucket: cbjx-robinpewter-vault
+  key: robinpewter-crypto-key
+  keyring: robinpewter-keyring
+  name: robinpewter
+  serviceAccount: robinpewter-vt
 velero:
   namespace: velero
-webhook: prow
+  schedule: ""
+  serviceAccount: robinpewter-vo
+  ttl: ""
+versionStream:
+  ref: v0.0.333
+  url: https://github.com/cloudbees/arcalos-jenkins-x-versions.git
+webhook: lighthouse
